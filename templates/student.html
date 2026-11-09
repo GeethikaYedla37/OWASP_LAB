@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Student dashboard · Student Portal{% endblock %}
+
+{% block content %}
+<div class="page-shell" data-testid="student-dashboard">
+  <header class="page-heading">
+    <p class="account-line">Signed in as <strong>{{ current_user.username }}</strong></p>
+    <h1>Student dashboard</h1>
+    <p>Share a comment with the class.</p>
+  </header>
+
+  <div class="dashboard-grid">
+    <section class="composer" aria-labelledby="comment-heading">
+      <form method="post" action="{{ url_for('add_comment') }}">
+        <label id="comment-heading" for="comment">Comment</label>
+        <textarea id="comment" name="comment" placeholder="Write a comment" maxlength="{% if is_vulnerable %}10000{% else %}1000{% endif %}" required></textarea>
+        <button class="button button-primary" type="submit">Post comment</button>
+      </form>
+    </section>
+
+    <section class="comments" aria-labelledby="comments-heading">
+      <div class="comments-header">
+        <h2 id="comments-heading">Recent comments</h2>
+        <p class="script-status">Script status: <strong id="xss-status">NOT_EXECUTED</strong></p>
+      </div>
+
+      <div class="comment-list">
+        {% for comment in comments %}
+          <article class="comment-row">
+            <strong>{{ comment.username }}</strong>
+            <div class="comment-body" data-testid="comment-body">
+              {% if is_vulnerable %}
+                {{ comment.body|safe }}
+              {% else %}
+                {{ comment.body }}
+              {% endif %}
+            </div>
+          </article>
+        {% else %}
+          <p class="empty-state">No comments yet.</p>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}

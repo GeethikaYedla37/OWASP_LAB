@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Debug details · Student Portal{% endblock %}
+
+{% block content %}
+<div class="page-shell debug-shell" data-testid="debug-details">
+  <header class="page-heading">
+    <p class="account-line">500 Internal Server Error</p>
+    <h1>Debug details exposed</h1>
+    <p>Vulnerable mode reveals internal configuration and exception data.</p>
+  </header>
+
+  <section class="debug-panel">
+    <div class="debug-grid">
+      <div>
+        <span>DEBUG</span>
+        <strong>True</strong>
+      </div>
+      <div>
+        <span>DATABASE</span>
+        <code>{{ database_label }}</code>
+      </div>
+      <div>
+        <span>SECRET_KEY</span>
+        <code>{{ secret_label }}</code>
+      </div>
+    </div>
+    <pre>{{ demo_traceback }}</pre>
+  </section>
+</div>
+{% endblock %}

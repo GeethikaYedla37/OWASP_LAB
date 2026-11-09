@@ -1,0 +1,30 @@
+# Python bytecode / cache
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+.env/
+.ENV
+.env
+.env.*
+!.env.example
+
+# SQLite / local databases (auto-created by the app on startup)
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# Node / dependency caches
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

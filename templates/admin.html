@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Admin dashboard · Student Portal{% endblock %}
+
+{% block content %}
+<div class="page-shell" data-testid="admin-dashboard">
+  <header class="page-heading page-heading-row">
+    <div>
+      <p class="account-line">Signed in as <strong>{{ current_user.username }}</strong></p>
+      <h1>Admin dashboard</h1>
+      <p>Review the generic accounts stored by this local application.</p>
+    </div>
+    <div class="storage-summary storage-{{ lab_mode }}">
+      <span>Password storage</span>
+      <strong>{% if is_vulnerable %}Plain text{% else %}Secure hashes{% endif %}</strong>
+    </div>
+  </header>
+
+  <section class="table-frame" aria-labelledby="accounts-heading">
+    <div class="table-heading">
+      <h2 id="accounts-heading">Account directory</h2>
+      <span>{{ users|length }} accounts</span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Role</th>
+            <th scope="col">Stored password value</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr>
+              <td><strong>{{ user.username }}</strong></td>
+              <td>{{ user.role|title }}</td>
+              <td>
+                {% if is_vulnerable %}
+                  <code>{{ user.password }}</code>
+                {% else %}
+                  <code>{{ user.password[:28] }}…</code>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  {% if is_vulnerable and current_user.role == 'student' %}
+    <aside class="finding-callout" data-testid="broken-access-control-result">
+      <strong>Broken access control demonstrated</strong>
+      <p>A student session reached the admin-only page because vulnerable mode checks only whether a user is signed in.</p>
+    </aside>
+  {% endif %}
+</div>
+{% endblock %}

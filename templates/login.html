@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Sign in · Student Portal{% endblock %}
+{% block body_class %}login-page{% endblock %}
+
+{% block content %}
+<div class="login-shell">
+  <section class="campus-panel" aria-label="Campus illustration">
+    <img src="{{ url_for('static', filename='campus.png') }}" alt="Geometric illustration of a school campus">
+  </section>
+
+  <section class="login-panel" aria-labelledby="login-heading">
+    <div class="panel-heading">
+      <h1 id="login-heading">Welcome back</h1>
+      <p>Sign in with your assigned account.</p>
+    </div>
+
+    <form class="login-form" method="post" action="{{ url_for('login') }}">
+      <label for="username">Username</label>
+      <input
+        id="username"
+        name="username"
+        type="text"
+        value="{{ entered_username }}"
+        autocomplete="username"
+        required
+        autofocus
+      >
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        autocomplete="current-password"
+        required
+      >
+
+      <fieldset class="role-fieldset">
+        <legend>Account type</legend>
+        <div class="role-options">
+          <label class="role-option">
+            <input type="radio" name="role" value="student" {% if entered_role != 'admin' %}checked{% endif %}>
+            <span>Student</span>
+          </label>
+          <label class="role-option">
+            <input type="radio" name="role" value="admin" {% if entered_role == 'admin' %}checked{% endif %}>
+            <span>Admin</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <button class="button button-primary" type="submit">Sign in</button>
+
+      <div class="form-message {% if error %}form-message-error{% endif %}" role="status" data-testid="login-message">
+        {% if error %}
+          <strong>{{ error }}</strong>
+        {% else %}
+          <span>Demo accounts</span>
+          <code>student1 / student123</code>
+          <span aria-hidden="true">·</span>
+          <code>admin1 / admin123</code>
+        {% endif %}
+      </div>
+    </form>
+  </section>
+</div>
+{% endblock %}

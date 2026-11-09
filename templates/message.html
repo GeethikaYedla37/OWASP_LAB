@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}{{ status_label }} · Student Portal{% endblock %}
+
+{% block content %}
+<div class="message-shell">
+  <section class="message-panel" data-testid="message-panel">
+    <span class="message-status">{{ status_label }}</span>
+    <h1>{{ title }}</h1>
+    <p>{{ message }}</p>
+    <a class="button button-primary button-inline" href="{{ url_for('index') }}">Return to portal</a>
+  </section>
+</div>
+{% endblock %}
